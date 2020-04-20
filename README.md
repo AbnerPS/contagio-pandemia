@@ -1,4 +1,4 @@
-<img src="https://www.slmandic.edu.br/wp-content/uploads/2020/02/Capa-noticia-coronavirus.png" alt="Imagem de São Leopoldo Mandic">
+<img src="./banner.png" alt="Banner Corona Vírus">
 
 # :mask: Contagio em tempos de Pandemia
 
