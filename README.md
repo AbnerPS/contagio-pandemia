@@ -34,12 +34,14 @@ e) Como você compara cada indivíduo deste exercício, com processos e threads 
 - [x] Popular matriz com pessoas: V para vazio, C para contaminado e S para saudavel.
 - [x] Identificar vizinhança para cada elemento da matriz.
 - [x] Adicionar probabilidade de contaminação para a vizinhança de cada matriz.
-- [ ] Movimentar os elementos da matriz.
+- [x] Movimentar os elementos da matriz.
 - [x] Adicionar tudo em um ciclo temporal.
 - [x] Fazer contagem de quantos ciclos temporais se passaram até todas os elementos serem contaminados.
 - [ ] Considerar q os elementos podem se curar demais de determinado ciclos de tempo.
 
 ## :iphone: Minhas Redes Sociais
+
+Abaixo algumas das minhas redes sociais:
  
    <a href="https://github.com/AbnerPS" target="_blank" >
     <img alt="Github" src="https://img.shields.io/badge/Github--%23F8952D?style=social&logo=github"></a> 
