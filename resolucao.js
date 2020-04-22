@@ -6,7 +6,7 @@ const aleatorio = (min, max) => {
 
 const popularArea = tamanho => {
     let x = new Array
-    const selecao = ["V", "C", "S"] //V = vazio, C = contaminado, S = saudavel
+    const selecao = ["V", "C", "S"] //V = vazio, C = contaminado, S = saudável
     for (let i = 0; i < tamanho; i++) {
         let y = new Array
         for (let j = 0; j < tamanho; j++) {
@@ -136,4 +136,4 @@ const iniciarSimulacao = (tamanhoArea, probabilidadeContagio, tempoCiclo) => {
     }, tempoCiclo * 1000)
 }
 
-iniciarSimulacao(4, 30, 2)
+iniciarSimulacao(4, 14, 2)
