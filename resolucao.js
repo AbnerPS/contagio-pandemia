@@ -1,10 +1,16 @@
-const aleatorio = (min, max) => {
+/* Universidade Paulista - UNIP
+ * Autor: Abner Pereira Siva
+ * RA: N215AJ-8
+ * Turma: CC6P13
+*/
+
+const aleatorio = (min, max) => { // retorna um numero aleatório entre min e max
     min = Math.ceil(min)
     max = Math.floor(max)
     return Math.floor(Math.random() * (max - min)) + min
 }
 
-const popularArea = tamanho => {
+const popularArea = tamanho => { // retorna uma matriz populada de tamanho x
     let x = new Array
     const selecao = ["V", "C", "S"] //V = vazio, C = contaminado, S = saudável
     for (let i = 0; i < tamanho; i++) {
@@ -17,7 +23,7 @@ const popularArea = tamanho => {
     return x
 }
 
-const contagio = (matriz, probabilidade) => {
+const contagio = (matriz, probabilidade) => { // retorna uma nova matriz com os elementos contaminados
     for (let x = 0; x < matriz.length; x++) {
         for (let y = 0; y < matriz.length; y++) {
             if (matriz[x][y] == "C"){ // verifica se a pessoa esta contaminada
@@ -82,18 +88,32 @@ const contagio = (matriz, probabilidade) => {
     return matriz
 }
 
-const analisarPopulacao = (matriz, contador) => {
+const analisarPopulacao = matriz => { // retorna um objeto com a contagem de elementos contaminados, saudaveis e vazios
+    let contagem = {
+        contaminados: 0,
+        saudaveis: 0,
+        vazios: 0
+    }
+
     matriz.forEach((valorX) => {
         valorX.forEach((valorY) => {
-            if (valorY == "C" || valorY == "V"){
-                contador++
+            switch (valorY){
+                case "C":
+                    contagem.contaminados++
+                    break
+                case "S":
+                    contagem.saudaveis++
+                    break
+                case "V":
+                    contagem.vazios++
+                    break
             }
         })
     })
-    return contador
+    return contagem
 }
 
-const movimentacao = matriz => {
+const movimentacao = matriz => { // retorna uma nova matriz após a movimentação dos elementos
     const qntMovimentos = aleatorio(1, matriz.length ** 2) // gera um numero aleatorio de movimentos a ser executados
     for (let i = 0; i <= qntMovimentos; i++){
         const movX = aleatorio(0, matriz.length)
@@ -113,22 +133,40 @@ const movimentacao = matriz => {
     return matriz
 }
 
-const iniciarSimulacao = (tamanhoArea, probabilidadeContagio, tempoCiclo) => {
+
+const periodoRecuperacao = matriz => { // retorna uma nova matriz com os elementos curados
+    for (let i = 0; i < matriz.length; i++) {
+        for (let j = 0; j < matriz.length; j++) {
+            if (matriz[i][j] == "C") {
+                matriz[i][j] = "S"
+                break
+            }
+        }
+    }
+    return matriz
+}
+
+const iniciarSimulacao = (tamanhoArea, probabilidadeContagio, tempoCiclo) => { // inicia a simulação de contagio do vírus
     let ciclos = 0
-    let contarContaminados = 0
     let populacao = popularArea(tamanhoArea)
     console.log("Iniciando simulação...")
     console.log(populacao)
     console.log("|----------------------------------|")
 
     const tempo = setInterval(() => {
-        if (analisarPopulacao(populacao, contarContaminados) == (populacao.length ** 2)){
+        let contagemCasos = analisarPopulacao(populacao)
+        if ((contagemCasos.saudaveis + contagemCasos.vazios) == (populacao.length ** 2)){
             clearInterval(tempo)
             console.log(populacao);
             console.log("Fim da simulação:", ciclos, "ciclos")
         } else {
-            contagio(populacao, probabilidadeContagio)
-            populacao = movimentacao(populacao)
+            if (ciclos < 10) {
+                populacao = contagio(populacao, probabilidadeContagio)
+                populacao = movimentacao(populacao)
+            } else {
+                populacao = periodoRecuperacao(populacao)
+                populacao = movimentacao(populacao)
+            }
             ciclos++
             console.log(populacao)
             console.log("Ciclo: ", ciclos)
