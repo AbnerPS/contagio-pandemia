@@ -12,7 +12,18 @@ const aleatorio = (min, max) => { // retorna um numero aleatório entre min e ma
 
 const popularArea = tamanho => { // retorna uma matriz populada de tamanho x
     let x = new Array
-    const selecao = ["V", "C", "S"] //V = vazio, C = contaminado, S = saudável
+    const selecao = [{}, {
+        contaminado: false,
+        curado: false,
+        morto: false,
+        ciclos: 0
+    }, {
+        contaminado: true,
+        curado: false,
+        morto: false,
+        ciclos: 0
+    }] //V = vazio, C = contaminado, S = saudável
+
     for (let i = 0; i < tamanho; i++) {
         let y = new Array
         for (let j = 0; j < tamanho; j++) {
@@ -97,16 +108,12 @@ const analisarPopulacao = matriz => { // retorna um objeto com a contagem de ele
 
     matriz.forEach((valorX) => {
         valorX.forEach((valorY) => {
-            switch (valorY){
-                case "C":
-                    contagem.contaminados++
-                    break
-                case "S":
-                    contagem.saudaveis++
-                    break
-                case "V":
-                    contagem.vazios++
-                    break
+            if (valorY.contaminado){
+                contagem.contaminados++
+            } else if(valorY.contaminado == false){
+                contagem.saudaveis++
+            } else {
+                contagem.vazios++
             }
         })
     })
@@ -122,10 +129,10 @@ const movimentacao = matriz => { // retorna uma nova matriz após a movimentaç�
         const novoMovY = movY + aleatorio(-1, 2)
 
         if ((novoMovX >= 0 && novoMovX < matriz.length) && (novoMovY >= 0 && novoMovY < matriz.length)){ // verifica se esta nos limites da matriz
-            if (matriz[movX][movY] !== "V"){ //seleciona uma posição aleatoria não vazia na matriz
-                if (matriz[novoMovX][novoMovY] == "V"){ // movimenta o elemento para uma vizinhança aleatoria vazia na matriz
+            if (matriz[movX][movY].contanimado !== undefined){ //seleciona uma posição aleatoria não vazia na matriz
+                if (matriz[novoMovX][novoMovY].contanimado == undefined){ // movimenta o elemento para uma vizinhança aleatoria vazia na matriz
                     matriz[novoMovX][novoMovY] = matriz[movX][movY]
-                    matriz[movX][movY] = "V"
+                    matriz[movX][movY] = {}
                 }
             }
         }
@@ -137,8 +144,8 @@ const movimentacao = matriz => { // retorna uma nova matriz após a movimentaç�
 const periodoRecuperacao = matriz => { // retorna uma nova matriz com os elementos curados
     for (let i = 0; i < matriz.length; i++) {
         for (let j = 0; j < matriz.length; j++) {
-            if (matriz[i][j] == "C") {
-                matriz[i][j] = "S"
+            if (matriz[i][j].contanimado !== undefined && matriz[i][j].contanimado == true) {
+                matriz[i][j].contanimado = false
                 break
             }
         }
@@ -174,4 +181,4 @@ const iniciarSimulacao = (tamanhoArea, probabilidadeContagio, tempoCiclo) => { /
     }, tempoCiclo * 1000)
 }
 
-iniciarSimulacao(4, 14, 2)
+iniciarSimulacao(2, 14, 2)
